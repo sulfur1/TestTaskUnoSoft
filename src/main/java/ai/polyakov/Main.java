@@ -50,16 +50,7 @@ public class Main {
             return;
         }
 
-        // Пример входных данных
-        String[] inputStrings = {
-                "111;123;222",
-                "200;123;100",
-                "300;;100",
-                "100;200;300",
-                "200;300;100"
-        };
-
-        // Создание уникального множества строк
+        // Create unuque set strings
         Set<String> uniqueStrings = new HashSet<>(stringList);
 
         // Группировка строк
@@ -82,12 +73,12 @@ public class Main {
             }
         }
 
-        // Сортировка групп по количеству элементов
+        // Sort by count elements
         List<Map.Entry<Integer, List<String>>> sortedGroups = new ArrayList<>(groups.entrySet());
         sortedGroups.sort(Comparator.comparingInt(entry -> entry.getValue().size()));
         Collections.reverse(sortedGroups);
 
-        // Вывод в файл
+        // Output to file
         try (PrintWriter writer = new PrintWriter("output.txt")) {
             for (Map.Entry<Integer, List<String>> entry : sortedGroups) {
                 List<String> group = entry.getValue();
@@ -117,58 +108,4 @@ public class Main {
         }
         return false;
     }
-
-    /*public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println("Usage: java -jar {название проекта}.jar тестовый-файл.txt");
-            return;
-        }
-
-        File file = new File(args[0]);
-        Map<String, Set<String>> groups = new HashMap<>();
-        Pattern pattern = Pattern.compile("(?=(\\\"[0-9]+\\\";?))\\1+");
-        Pattern pattern = Pattern.compile("(?=(\"[0-9]+\";?))\\1+");
-        Matcher m;
-        try (Scanner scanner = new Scanner(file)) {
-            while (scanner.hasNext()) {
-                String line = scanner.nextLine();
-                m = pattern.matcher(line);
-                System.out.println(m.find(0));
-                if (!(m.matches())) {
-                    continue;
-                }
-                String[] values = line.split(";");
-                int count = (int) m.results().count();
-                if (count == values.length) {
-                    String key = Arrays.toString(values);
-                    groups.computeIfAbsent(key, k -> new HashSet<>()).add(Arrays.toString(values));
-                }
-                String key = Arrays.toString(values);
-                groups.computeIfAbsent(key, k -> new HashSet<>()).add(line);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-            return;
-        }
-
-        List<Set<String>> groupList = new ArrayList<>(groups.values());
-        groupList.sort(Comparator.<Set<String>>comparingInt(Set::size).reversed());
-
-        try (FileWriter writer = new FileWriter("output.txt")) {
-            int groupCount = 0;
-            for (Set<String> group : groupList) {
-                if (group.size() > 1) {
-                    groupCount++;
-                    writer.write("группа " + groupCount + "\n");
-                    for (String line : group) {
-                        writer.write(line + "\n");
-                    }
-                    writer.write("\n");
-                }
-            }
-            System.out.println("Количество групп с более чем одним элементом: " + groupCount);
-        } catch (IOException e) {
-            System.out.println("Error writing to file");
-        }
-    }*/
 }
